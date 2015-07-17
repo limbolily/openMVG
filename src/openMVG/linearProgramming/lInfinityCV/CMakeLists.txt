@@ -22,29 +22,39 @@ IF (MSVC)
   ADD_DEFINITIONS("/wd4267")
 ENDIF (MSVC)
 
-ADD_LIBRARY(openMVG_lInftyComputerVision  ${lInftycomputervision_headers} ${lInftycomputervision_cpp})
-INSTALL(TARGETS openMVG_lInftyComputerVision DESTINATION lib/)
+yong_add_library(openMVG_lInftyComputerVision
+  SOURCES ${lInftycomputervision_headers} ${lInftycomputervision_cpp}
+  LIB_TYPE STATIC)
+yong_add_dependence(openmvg openMVG_lInftyComputerVision
+  DEPENDENT_PROJECT eigen
+    COMMIT_HASH ${EIGEN_HASH}
+    HEADER_ONLY
+  DEPENDENT_PROJECT osi_clp
+    COMMIT_HASH ${OSI_CLP_HASH}
+    HEADER_ONLY
+  )
+yong_add_library_end(openMVG_lInftyComputerVision)
 
-SET(LOCAL_LIBS
-  openMVG_multiview_test_data
-  openMVG_multiview
-  openMVG_lInftyComputerVision
-  ${openMVG_linearProgramming})
-
-# Linfinity Triangulation
-UNIT_TEST(openMVG_lInftyCV triangulation "${LOCAL_LIBS}")
-
-# Linfinity Pose/Resection estimation
-UNIT_TEST(openMVG_lInftyCV resection "${LOCAL_LIBS}")
-UNIT_TEST(openMVG_lInftyCV resection_robust "${LOCAL_LIBS}")
-
-# Linfinity Global translations from triplets of heading directions
-UNIT_TEST(openMVG_lInftyCV global_translations_fromTriplets "${LOCAL_LIBS}")
-# Linfinity Global translations from heading directions
-UNIT_TEST(openMVG_lInftyCV global_translations_fromTij "${LOCAL_LIBS}")
-
-# Linfinity Translation and Structure 
-UNIT_TEST(openMVG_lInftyCV tijsAndXis "${LOCAL_LIBS}")
-# Linfinity Translation and Structure with noise handling
-UNIT_TEST(openMVG_lInftyCV tijsAndXis_outlier "${LOCAL_LIBS}")
+#SET(LOCAL_LIBS
+#  openMVG_multiview_test_data
+#  openMVG_multiview
+#  openMVG_lInftyComputerVision
+#  ${openMVG_linearProgramming})
+#
+## Linfinity Triangulation
+#UNIT_TEST(openMVG_lInftyCV triangulation "${LOCAL_LIBS}")
+#
+## Linfinity Pose/Resection estimation
+#UNIT_TEST(openMVG_lInftyCV resection "${LOCAL_LIBS}")
+#UNIT_TEST(openMVG_lInftyCV resection_robust "${LOCAL_LIBS}")
+#
+## Linfinity Global translations from triplets of heading directions
+#UNIT_TEST(openMVG_lInftyCV global_translations_fromTriplets "${LOCAL_LIBS}")
+## Linfinity Global translations from heading directions
+#UNIT_TEST(openMVG_lInftyCV global_translations_fromTij "${LOCAL_LIBS}")
+#
+## Linfinity Translation and Structure 
+#UNIT_TEST(openMVG_lInftyCV tijsAndXis "${LOCAL_LIBS}")
+## Linfinity Translation and Structure with noise handling
+#UNIT_TEST(openMVG_lInftyCV tijsAndXis_outlier "${LOCAL_LIBS}")
 

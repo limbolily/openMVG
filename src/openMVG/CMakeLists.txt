@@ -21,9 +21,13 @@ ADD_SUBDIRECTORY(sfm)
 SET(openMVG_linearProgramming ${openMVG_linearProgramming} PARENT_SCOPE)
 
 #INSTALL RULES
-INSTALL(
-  DIRECTORY .
-  DESTINATION include/openMVG
-  COMPONENT headers
-  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
-)
+#INSTALL(
+#  DIRECTORY .
+#  DESTINATION include/openMVG
+#  COMPONENT headers
+#  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
+#)
+yong_install_header_directories(openmvg
+  DIRECTORIES .
+  DESTINATION openMVG
+  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h")

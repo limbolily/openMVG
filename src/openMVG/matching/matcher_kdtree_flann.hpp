@@ -1,4 +1,4 @@
-// Copyright (c) 2012, 2013 Pierre MOULON.
+﻿// Copyright (c) 2012, 2013 Pierre MOULON.
 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,7 +8,7 @@
 #define OPENMVG_MATCHING_ARRAYMATCHER_KDTREE_FLANN_H_
 
 #include "openMVG/matching/matching_interface.hpp"
-#include "third_party/flann/src/cpp/flann/flann.hpp"
+#include "flann/flann.hpp"
 #include <memory>
 
 namespace openMVG {

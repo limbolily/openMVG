@@ -10,8 +10,7 @@ file(
   *.cpp
 )
 
-ADD_LIBRARY(openMVG_system
-  ${sytem_files_header}
-  ${system_files_cpp})
-SET_PROPERTY(TARGET openMVG_system PROPERTY FOLDER OpenMVG/OpenMVG)
-INSTALL(TARGETS openMVG_system DESTINATION lib/)
+yong_add_library(openMVG_system
+  SOURCES ${system_files_header} ${system_files_cpp}
+  LIB_TYPE STATIC)
+yong_add_library_end(openMVG_system)

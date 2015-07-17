@@ -7,7 +7,7 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-PROJECT(openMVG C CXX)
+#PROJECT(openMVG C CXX)
 
 # guard against in-source builds
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -17,11 +17,15 @@ ENDIF()
 # ==============================================================================
 # OpenMVG build options
 # ==============================================================================
-OPTION(OpenMVG_BUILD_TESTS "Build OpenMVG tests" OFF)
-OPTION(OpenMVG_BUILD_EXAMPLES "Build OpenMVG example applications. Does not affect binaries under 'software'" ON)
-OPTION(OpenMVG_BUILD_OPENGL_EXAMPLES "Build OpenMVG openGL examples" OFF)
-OPTION(OpenMVG_BUILD_COVERAGE "Enable code coverage generation (gcc only)" OFF)
-OPTION(OpenMVG_USE_OPENMP "Enable OpenMP parallelization" ON)
+#OPTION(OpenMVG_BUILD_TESTS "Build OpenMVG tests" OFF)
+set(OpenMVG_BUILD_TESTS OFF)
+#OPTION(OpenMVG_BUILD_EXAMPLES "Build OpenMVG example applications. Does not affect binaries under 'software'" ON)
+set(OpenMVG_BUILD_EXAMPLES OFF)
+#OPTION(OpenMVG_BUILD_OPENGL_EXAMPLES "Build OpenMVG openGL examples" OFF)
+set(OpenMVG_BUILD_OPENGL_EXAMPLES OFF)
+#OPTION(OpenMVG_BUILD_COVERAGE "Enable code coverage generation (gcc only)" OFF)
+set(OpenMVG_BUILD_COVERAGE OFF)
+yong_option(OpenMVG_USE_OPENMP "Enable OpenMP parallelization" ON)
 
 # By default build in Release mode
 IF(NOT CMAKE_BUILD_TYPE AND NOT MSVC)
@@ -104,11 +108,11 @@ ENDIF()
 # ==============================================================================
 # IMAGE IO detection
 # ==============================================================================
-IF (NOT APPLE)
-  FIND_PACKAGE(JPEG QUIET)
-  FIND_PACKAGE(PNG QUIET)
-  FIND_PACKAGE(TIFF QUIET)
-ENDIF (NOT APPLE)
+#IF (NOT APPLE)
+#  FIND_PACKAGE(JPEG QUIET)
+#  FIND_PACKAGE(PNG QUIET)
+#  FIND_PACKAGE(TIFF QUIET)
+#ENDIF (NOT APPLE)
 
 # Folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -118,48 +122,48 @@ SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 # ==============================================================================
 #- glfw
 # ==============================================================================
-IF (OpenMVG_BUILD_OPENGL_EXAMPLES)
-  SET(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Do not build the GLFW example programs")
-  SET(GLFW_BUILD_TESTS    OFF CACHE BOOL "Do not build the GLFW tests programs")
-  SET(GLFW_BUILD_DOCS     OFF CACHE BOOL "Do not build the GLFW documentation")
-  ADD_SUBDIRECTORY(dependencies/glfw)
-  INCLUDE_DIRECTORIES(SYSTEM dependencies/glfw/include)
-  SET_PROPERTY(TARGET glfw PROPERTY FOLDER OpenMVG/3rdParty/glfw)
-  SET_PROPERTY(TARGET uninstall PROPERTY FOLDER OpenMVG/3rdParty/glfw)
-ENDIF (OpenMVG_BUILD_OPENGL_EXAMPLES)
+#IF (OpenMVG_BUILD_OPENGL_EXAMPLES)
+#  SET(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Do not build the GLFW example programs")
+#  SET(GLFW_BUILD_TESTS    OFF CACHE BOOL "Do not build the GLFW tests programs")
+#  SET(GLFW_BUILD_DOCS     OFF CACHE BOOL "Do not build the GLFW documentation")
+#  ADD_SUBDIRECTORY(dependencies/glfw)
+#  INCLUDE_DIRECTORIES(SYSTEM dependencies/glfw/include)
+#  SET_PROPERTY(TARGET glfw PROPERTY FOLDER OpenMVG/3rdParty/glfw)
+#  SET_PROPERTY(TARGET uninstall PROPERTY FOLDER OpenMVG/3rdParty/glfw)
+#ENDIF (OpenMVG_BUILD_OPENGL_EXAMPLES)
 #===============================
 #---- LINEAR PROGRAMMING SOLVER
 #===============================
 
 #- Mosek (linear programming interface)
 #===============================================================================
-FIND_PACKAGE(Mosek)
-IF(MOSEK_FOUND)
-  ADD_DEFINITIONS(-DOPENMVG_HAVE_MOSEK)
-  INCLUDE_DIRECTORIES(
-    ${MOSEK_INCLUDE}
-    ./dependencies/osi_clp/Osi/src/OsiMsk/
-  )
-ENDIF(MOSEK_FOUND)
+#FIND_PACKAGE(Mosek)
+#IF(MOSEK_FOUND)
+#  ADD_DEFINITIONS(-DOPENMVG_HAVE_MOSEK)
+#  INCLUDE_DIRECTORIES(
+#    ${MOSEK_INCLUDE}
+#    ./dependencies/osi_clp/Osi/src/OsiMsk/
+#  )
+#ENDIF(MOSEK_FOUND)
 
 #- osi_clp (linear programming interface)
 # ==============================================================================
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/dependencies/osi_clp/Clp)
-  message(FATAL_ERROR
-    "\n'osi_clp' submodule is missing, please update your repository:\n"
-    "  > git submodule update -i\n")
-endif()
-ADD_SUBDIRECTORY(dependencies/osi_clp)
-INCLUDE_DIRECTORIES(
-  ./dependencies/osi_clp/CoinUtils/src/
-  ./dependencies/osi_clp/Clp/src/
-  ./dependencies/osi_clp/Osi/src/Osi/
-  ./dependencies/osi_clp/Clp/src/OsiClp/
-)
-SET_PROPERTY(TARGET lib_CoinUtils PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
-SET_PROPERTY(TARGET lib_Osi PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
-SET_PROPERTY(TARGET lib_OsiClpSolver PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
-SET_PROPERTY(TARGET lib_clp PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
+#if(NOT EXISTS ${PROJECT_SOURCE_DIR}/dependencies/osi_clp/Clp)
+#  message(FATAL_ERROR
+#    "\n'osi_clp' submodule is missing, please update your repository:\n"
+#    "  > git submodule update -i\n")
+#endif()
+#ADD_SUBDIRECTORY(dependencies/osi_clp)
+#INCLUDE_DIRECTORIES(
+#  ./dependencies/osi_clp/CoinUtils/src/
+#  ./dependencies/osi_clp/Clp/src/
+#  ./dependencies/osi_clp/Osi/src/Osi/
+#  ./dependencies/osi_clp/Clp/src/OsiClp/
+#)
+#SET_PROPERTY(TARGET lib_CoinUtils PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
+#SET_PROPERTY(TARGET lib_Osi PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
+#SET_PROPERTY(TARGET lib_OsiClpSolver PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
+#SET_PROPERTY(TARGET lib_clp PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
 
 #===============================
 #--END-- LINEAR PROGRAMMING SOLVER
@@ -170,8 +174,8 @@ SET_PROPERTY(TARGET lib_clp PROPERTY FOLDER OpenMVG/3rdParty/osi_clp)
 # Opencv is not used by openMVG but some samples show how to use openCV
 #  and openMVG simultaneously
 # ==============================================================================
-OPTION(OpenMVG_USE_OPENCV "Build or not opencv+openMVG samples programs" OFF)
-
+#OPTION(OpenMVG_USE_OPENCV "Build or not opencv+openMVG samples programs" OFF)
+set(OpenMVG_USE_OPENCV OFF)
 
 # ==============================================================================
 # Enable cmake UNIT TEST framework
@@ -207,21 +211,32 @@ ADD_SUBDIRECTORY(third_party)
 SET(OpenMVG_INCLUDES
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/third_party
-  ${JPEG_INCLUDE_DIR}
-  ${PNG_INCLUDE_DIRS}
-  ${TIFF_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/cereal/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/eigen
-  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/lemon
-  ${PROJECT_BINARY_DIR}/third_party/lemon
-  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/ceres-solver/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/ceres-solver/internal/ceres/miniglog
-  ${PROJECT_BINARY_DIR}/third_party/ceres-solver/config
-  ${CMAKE_CURRENT_SOURCE_DIR}/third_party/flann/src/cpp
-  CACHE PATH "include directories for openMVG and its dependencies"
+  #${JPEG_INCLUDE_DIR}
+  #${PNG_INCLUDE_DIRS}
+  #${TIFF_INCLUDE_DIR}
+  #${CMAKE_CURRENT_SOURCE_DIR}/dependencies/cereal/include
+  #${CMAKE_CURRENT_SOURCE_DIR}/third_party/eigen
+  #${CMAKE_CURRENT_SOURCE_DIR}/third_party/lemon
+  #${PROJECT_BINARY_DIR}/third_party/lemon
+  #${CMAKE_CURRENT_SOURCE_DIR}/third_party/ceres-solver/include
+  #${CMAKE_CURRENT_SOURCE_DIR}/third_party/ceres-solver/internal/ceres/miniglog
+  #${PROJECT_BINARY_DIR}/third_party/ceres-solver/config
+  #${CMAKE_CURRENT_SOURCE_DIR}/third_party/flann/src/cpp
+  #CACHE PATH "include directories for openMVG and its dependencies"
 )
 
 INCLUDE_DIRECTORIES(${OpenMVG_INCLUDES})
+
+set(CEREAL_HASH b63a7eba95c10ecbaace4688341589802e6b63e7)
+set(CERES_HASH d1286d83964912dfd954e0a37da98bd81fb27ae1)
+set(EIGEN_HASH ac36b528a661eb9733f3069d2b6537ed6c8848b5)
+set(FLANN_HASH 02c40a96b3ab9f2776a50941cddc6b1efb3e56c0)
+set(JPEG_TURBO_HASH c5f46459881c068960fae0d2257cd907e917f8cc)
+set(LEMON_HASH 41642e9092c4b243d28f77b3df169efff494cab9)
+set(OSI_CLP_HASH adeedc8ec6d173f3d89031082ed303ef3d05ca08)
+set(PNG_HASH bc50235e477d8b6c249f01f7ec4d84aff30687b8)
+set(TIFF_HASH c391be0872a593de8362d76a60ad879dcbcc69b4)
+set(ZLIB_HASH 04ad1c7e937d2835c1c54c50bec9cfaa4f43a1c8)
 
 # ==============================================================================
 # openMVG modules
@@ -231,7 +246,7 @@ ADD_SUBDIRECTORY(openMVG)
 
 # software under patent or commercial licence
 # Included for research purpose only
-ADD_SUBDIRECTORY(nonFree)
+#ADD_SUBDIRECTORY(nonFree)
 
 # ==============================================================================
 # openMVG libraries
@@ -259,40 +274,40 @@ SET(OpenMVG_LIBS "${OpenMVG_LIBS}"
   ceres
   lemon
   easyexif)
-SET(OpenMVG_LIBS "${OpenMVG_LIBS}"
-  ${OPENMVG_LIBRARY_DEPENDENCIES} CACHE STRING "openMVG library names")
+#SET(OpenMVG_LIBS "${OpenMVG_LIBS}"
+#  ${OPENMVG_LIBRARY_DEPENDENCIES} CACHE STRING "openMVG library names")
 
 # openMVG tutorial examples
-IF (OpenMVG_BUILD_EXAMPLES)
-  ADD_SUBDIRECTORY(openMVG_Samples)
-ENDIF (OpenMVG_BUILD_EXAMPLES)
+#IF (OpenMVG_BUILD_EXAMPLES)
+#  ADD_SUBDIRECTORY(openMVG_Samples)
+#ENDIF (OpenMVG_BUILD_EXAMPLES)
 
 # Complete software build on openMVG
-ADD_SUBDIRECTORY(software)
+#ADD_SUBDIRECTORY(software)
 
 # ==============================================================================
 # Documentation
 # --------------------------
 # Sphinx detection
 # ==============================================================================
-FIND_PACKAGE(Sphinx)
-IF (EXISTS ${SPHINX_EXECUTABLE})
-  SET(SPHINX_HTML_DIR "${CMAKE_CURRENT_BINARY_DIR}/htmlDoc")
-
-  CONFIGURE_FILE(
-    "${CMAKE_CURRENT_SOURCE_DIR}/../docs/sphinx/rst/conf.py"
-    "${CMAKE_CURRENT_BINARY_DIR}/conf.py"
-    @ONLY)
-
-  ADD_CUSTOM_TARGET(doc ALL
-    ${SPHINX_EXECUTABLE}
-    -b html
-    "${CMAKE_CURRENT_SOURCE_DIR}/../docs/sphinx/rst"
-    "${SPHINX_HTML_DIR}"
-    COMMENT "Building HTML documentation with Sphinx")
-
-  SET_PROPERTY(TARGET doc PROPERTY FOLDER OpenMVG)
-
-ELSE (EXISTS ${SPHINX_EXECUTABLE})
-  MESSAGE("Sphinx need to be installed to generate the documentation")
-ENDIF (EXISTS ${SPHINX_EXECUTABLE})
+#FIND_PACKAGE(Sphinx)
+#IF (EXISTS ${SPHINX_EXECUTABLE})
+#  SET(SPHINX_HTML_DIR "${CMAKE_CURRENT_BINARY_DIR}/htmlDoc")
+#
+#  CONFIGURE_FILE(
+#    "${CMAKE_CURRENT_SOURCE_DIR}/../docs/sphinx/rst/conf.py"
+#    "${CMAKE_CURRENT_BINARY_DIR}/conf.py"
+#    @ONLY)
+#
+#  ADD_CUSTOM_TARGET(doc ALL
+#    ${SPHINX_EXECUTABLE}
+#    -b html
+#    "${CMAKE_CURRENT_SOURCE_DIR}/../docs/sphinx/rst"
+#    "${SPHINX_HTML_DIR}"
+#    COMMENT "Building HTML documentation with Sphinx")
+#
+#  SET_PROPERTY(TARGET doc PROPERTY FOLDER OpenMVG)
+#
+#ELSE (EXISTS ${SPHINX_EXECUTABLE})
+#  MESSAGE("Sphinx need to be installed to generate the documentation")
+#ENDIF (EXISTS ${SPHINX_EXECUTABLE})

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Pierre Moulon.
+﻿// Copyright (c) 2015 Pierre Moulon.
 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -174,6 +174,7 @@ static bool Generate_SfM_Report
 
   std::ofstream htmlFileStream(htmlFilename.c_str());
   htmlFileStream << htmlDocStream.getDoc();
+  return true;
 }
 
 } // namespace openMVG

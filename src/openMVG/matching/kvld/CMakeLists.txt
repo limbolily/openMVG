@@ -1,4 +1,9 @@
-
-ADD_LIBRARY(openMVG_kvld kvld.cpp kvld.h algorithm.cpp algorithm.h)
-SET_PROPERTY(TARGET openMVG_kvld PROPERTY FOLDER OpenMVG/OpenMVG)
-INSTALL(TARGETS openMVG_kvld DESTINATION lib/)
+yong_add_library(openMVG_kvld
+  SOURCES kvld.cpp kvld.h algorithm.cpp algorithm.h
+  LIB_TYPE STATIC)
+yong_add_dependence(openmvg openMVG_kvld
+  DEPENDENT_PROJECT eigen
+    COMMIT_HASH ${EIGEN_HASH}
+    HEADER_ONLY
+  )
+yong_add_library_end(openMVG_kvld)
